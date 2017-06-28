@@ -23,12 +23,14 @@
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <applicationConfigurable instance="com.alvincezy.tinypic2.TinyPicOptionsConfigurable"/>
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
-        <action id="com.shenjiajun.TinyAction" class="com.shenjiajun.TinyAction" text="TinyPic" description="com.shenjiajun.TinyAction"
+        <action id="com.shenjiajun.TinyAction"
+                class="com.shenjiajun.TinyAction" text="TinyPic"
+                description="com.shenjiajun.TinyAction"
                 icon="/icons/drawable-mdpi/ic_photo_size_select_large_pink_500_18dp.png">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>

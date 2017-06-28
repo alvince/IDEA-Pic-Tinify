@@ -13,8 +13,6 @@ import com.tinify.Source;
 import com.tinify.Tinify;
 import org.apache.http.util.TextUtils;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -31,7 +29,7 @@ public class TinyAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        // TODO: insert action logic here
+        // TODO: insert actions logic here
         project = e.getProject();
         String api = Messages.showInputDialog(project, "请输入API KEY", "TinyPic", Messages.getQuestionIcon());
         if (TextUtils.isEmpty(api)) {
@@ -77,7 +75,7 @@ public class TinyAction extends AnAction {
         cancelTiny = false;
         for (int i = 0; i < pictureFiles.size(); i++) {
             currentIndex = 0;
-            VirtualFile virtualFile = pictureFiles.get(i);
+            final VirtualFile virtualFile = pictureFiles.get(i);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
