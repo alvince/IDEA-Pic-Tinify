@@ -1,8 +1,8 @@
-<idea-plugin version="2">
-    <id>com.shenjiajun.TinyPic</id>
-    <name>TinyPic</name>
-    <version>1.0.2</version>
-    <vendor email="shenjiajun53@qq.com" url="https://github.com/shenjiajun53/TinyPic">ShenJiajun</vendor>
+<idea-plugin>
+    <id>com.alvincezy.TinyPic2</id>
+    <name>TinyPic2</name>
+    <version>2.0.0</version>
+    <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince/TinyPic2">alvince</vendor>
 
     <description><![CDATA[
       compress images use TinyPng api.<br>
@@ -24,15 +24,21 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable instance="com.alvincezy.tinypic2.TinyPicOptionsConfigurable"/>
+        <applicationService serviceInterface="com.alvincezy.tinypic2.Preferences"
+                            serviceImplementation="com.alvincezy.tinypic2.Preferences"/>
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
         <action id="com.shenjiajun.TinyAction"
                 class="com.shenjiajun.TinyAction" text="TinyPic"
                 description="com.shenjiajun.TinyAction"
                 icon="/icons/drawable-mdpi/ic_photo_size_select_large_pink_500_18dp.png">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action class="com.alvincezy.tinypic2.actions.TinyPicUploadAction"
+                id="com.alvincezy.tinypic2.actions.TinyPicUploadAction"
+                icon="/icons/drawable-mdpi/ic_photo_size_select_large_pink_500_18dp.png">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
         </action>
     </actions>
 

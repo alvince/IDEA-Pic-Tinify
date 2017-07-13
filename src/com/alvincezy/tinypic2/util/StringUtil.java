@@ -1,5 +1,7 @@
 package com.alvincezy.tinypic2.util;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by alvince on 17-6-29.
  *
@@ -11,7 +13,7 @@ public class StringUtil {
 
     public static final String EMPTY = "";
 
-    public static boolean isNotEmpty(String text) {
+    public static boolean isNotEmpty(@Nullable String text) {
         return text != null && text.length() > 0;
     }
 
