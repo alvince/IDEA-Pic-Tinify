@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.2.0-SNAPSHOT"
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.2.14"
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'org.jetbrains.intellij'
+
+dependencies {
+    //compile fileTree(dir: 'lib', include: ['*.jar'])
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'com.squareup.okio:okio:1.13.0'
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.tinify:tinify:1.5.0'
+}
+
+sourceSets {
+    main {
+        java.srcDirs = ['src']
+        resources.srcDirs = ['resources']
+    }
+    test {
+        java.srcDirs = ['test/java']
+        resources.srcDirs = ['test/resources']
+    }
+}
+
+intellij {
+    version 'IC-2017.1.5'
+    //IntelliJ IDEA 2016.3 dependency; for a full list of IntelliJ IDEA releases please see https://www.jetbrains.com/intellij-repository/releases
+    //plugins 'coverage' //Bundled plugin dependencies
+    pluginName 'TinyPic2'
+}
+
+apply plugin: 'idea'
+
+group 'com.alvincezy'
+version '2.0'
