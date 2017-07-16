@@ -106,4 +106,3 @@ public class TinyAction extends AnAction {
         }
     }
 }
-
