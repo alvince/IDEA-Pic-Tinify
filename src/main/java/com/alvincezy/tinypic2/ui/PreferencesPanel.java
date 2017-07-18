@@ -17,7 +17,7 @@ import javax.swing.*;
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 2.0, 6/28/2017
+ * @version 2.0, 7/18/2017
  * @since 2.0
  */
 public class PreferencesPanel {
@@ -37,7 +37,7 @@ public class PreferencesPanel {
 
     public boolean isModified() {
         String apiKeyInput = ComponentUtil.getInputText(mApiKeyField);
-        return StringUtil.isNotEmpty(apiKeyInput) && !StringUtil.equals(apiKeyInput, mPrefs.getApiKey());
+        return !StringUtil.equals(apiKeyInput, mPrefs.getApiKey());
     }
 
     public void apply() {
@@ -51,7 +51,7 @@ public class PreferencesPanel {
     private void createUIComponents() {
         mGetApiKeyLink = new ActionLink("", new AnAction() {
             @Override
-            public void actionPerformed(AnActionEvent anActionEvent) {
+            public void actionPerformed(AnActionEvent actionEvent) {
                 BrowserUtil.browse(Constants.LINK_TINY_PNG_DEVELOPER);
             }
         });

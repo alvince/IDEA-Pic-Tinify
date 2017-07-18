@@ -1,20 +1,21 @@
 <idea-plugin>
     <id>com.alvincezy.TinyPic2</id>
-    <name>TinyPic2</name>
-    <version>2.0.0</version>
+    <name>TinyPic 2</name>
+    <version>1.0.0</version>
     <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince/TinyPic2">alvince</vendor>
 
     <description><![CDATA[
-      compress images use TinyPng api.<br>
+      Compress images with TinyPng api.<br/>
+      See <a href="https://tinypng.com">https://tinypng.com</a>
     ]]></description>
 
     <change-notes><![CDATA[
-      Bug fix.<br>
+      Fix compat android studio.<br/>
     ]]>
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="141.SNAPSHOT"/>
+    <idea-version since-build="145.0"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
