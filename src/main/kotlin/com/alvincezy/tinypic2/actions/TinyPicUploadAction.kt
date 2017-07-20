@@ -1,13 +1,7 @@
 package com.alvincezy.tinypic2.actions
 
-import com.alvincezy.tinypic2.Constants
 import com.alvincezy.tinypic2.TinifyFlowable
 import com.alvincezy.tinypic2.TinyPicOptionsConfigurable
-import com.alvincezy.tinypic2.util.StringUtil
-import com.intellij.notification.Notification
-import com.intellij.notification.NotificationListener
-import com.intellij.notification.NotificationType
-import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
@@ -21,12 +15,12 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
 import com.intellij.openapi.wm.impl.status.StatusBarUtil
 import com.tinify.Tinify
+import org.apache.commons.lang.StringUtils
 import rx.Observable
 import rx.schedulers.Schedulers
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
-import javax.swing.event.HyperlinkEvent
 
 /**
  * Created by alvince on 2017/6/28.
@@ -48,19 +42,11 @@ class TinyPicUploadAction : TinifyAction() {
 
     override fun performAction(actionEvent: AnActionEvent, project: Project) {
         super.performAction(actionEvent, project)
-        if (StringUtil.isNotEmpty(preferences.apiKey)) {
+        if (StringUtils.isEmpty(preferences.apiKey)) {
+            TinyPicOptionsConfigurable.showSettingsDialog(project)
+        } else {
             Tinify.setKey(preferences.apiKey)
             pickFiles(project)
-        } else {
-            val notificationContent = "当前 Api Key 为空，请%s Api Key".format(Constants.HTML_LINK_SETTINGS)
-            Notifications.Bus.notify(Notification("TinyPic2 Settings", "TinyPic 2", notificationContent,
-                    NotificationType.WARNING, object : NotificationListener.Adapter() {
-                override fun hyperlinkActivated(notification: Notification, event: HyperlinkEvent) {
-                    when (event.description) {
-                        Constants.HTML_DESCRIPTION_SETTINGS -> TinyPicOptionsConfigurable.showSettingsDialog(project)
-                    }
-                }
-            }), project)
         }
     }
 

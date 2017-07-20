@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.alvincezy.TinyPic2</id>
     <name>TinyPic 2</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince/TinyPic2">alvince</vendor>
 
     <description><![CDATA[
@@ -28,6 +28,12 @@
         <applicationService serviceInterface="com.alvincezy.tinypic2.Preferences"
                             serviceImplementation="com.alvincezy.tinypic2.Preferences"/>
     </extensions>
+
+    <project-components>
+        <component>
+            <implementation-class>com.alvincezy.tinypic2.components.TinifyComponent</implementation-class>
+        </component>
+    </project-components>
 
     <actions>
         <action class="com.alvincezy.tinypic2.actions.TinyPicUploadAction"
