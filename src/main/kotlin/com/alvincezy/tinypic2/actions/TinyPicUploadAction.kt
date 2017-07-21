@@ -2,7 +2,9 @@ package com.alvincezy.tinypic2.actions
 
 import com.alvincezy.tinypic2.TinifyFlowable
 import com.alvincezy.tinypic2.TinyPicOptionsConfigurable
+import com.alvincezy.tinypic2.model.VirtualFileAware
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.progress.ProgressIndicator
@@ -26,8 +28,8 @@ import java.util.concurrent.Executors
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 2.0, 7/18/2017
- * @since 2.0
+ * @version 1.0.1, 7/21/2017
+ * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
 
@@ -37,7 +39,8 @@ class TinyPicUploadAction : TinifyAction() {
 
     @Volatile internal var taskPool = HashMap<String, Runnable>()
 
-    private val tinifySource = ArrayList<VirtualFile>()
+    private val logger = Logger.getInstance(javaClass)
+    private val tinifySource = ArrayList<VirtualFileAware>()
     private val tinifyThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
     override fun performAction(actionEvent: AnActionEvent, project: Project) {
@@ -54,15 +57,14 @@ class TinyPicUploadAction : TinifyAction() {
         tinifySource.clear()
         val descriptor = FileChooserDescriptor(true, true, false, false, false, true)
         val selectedFiles = FileChooser.chooseFiles(descriptor, project, null)
-        Observable.from(selectedFiles)
+        Observable.just(selectedFiles)
                 .subscribeOn(Schedulers.io())
-                .filter {
-                    if (selectedFiles.isNotEmpty()) {
-                        selectedFiles.forEach { parseFilePicked(it) }
-                    }
-                    tinifySource.isNotEmpty()
-                }
-                .subscribe({ uploadAndTinify() }, { it.printStackTrace() })
+                .filter { selectedFiles.isNotEmpty() }
+                .subscribe({
+                    selectedFiles.forEach { parseFilePicked(it) }
+//                    logger.debug("${tinifySource.toArray()}")
+                    uploadAndTinify()
+                }, { it.printStackTrace() })
     }
 
     @Suppress("name_shadowing")
@@ -71,7 +73,10 @@ class TinyPicUploadAction : TinifyAction() {
             override fun visitFile(file: VirtualFile): Boolean {
                 val filename = file.name.toLowerCase()
                 if (filename.endsWith(".jpg") || filename.endsWith(".png")) {
-                    tinifySource.add(file)
+                    val fileW = VirtualFileAware(file)
+                    if (tinifySource.contains(fileW))
+                        return false
+                    tinifySource.add(fileW)
                 }
                 return true
             }
@@ -84,7 +89,8 @@ class TinyPicUploadAction : TinifyAction() {
             isEnabledInModalContext = false
             ProgressManager.getInstance().run(object : Task.Backgroundable(project, "Perform Picture Tinify") {
                 override fun run(indicator: ProgressIndicator) {
-                    tinifySource.forEach { file -> tinifyThreadPool.execute(TaskRunnable(file)) }
+                    tinifySource.map { it.file }
+                            .forEach { file -> tinifyThreadPool.execute(TaskRunnable(file)) }
                     while (true) {
                         if (taskPool.isEmpty()) break
                     }

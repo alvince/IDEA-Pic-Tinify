@@ -9,8 +9,8 @@ import com.intellij.openapi.project.Project
  * Created by alvince on 17-7-11.
  *
  * @author alvince.zy@gmail.com
- * @version 2.0, 7/12/2017
- * @since 2.0
+ * @version 1.0, 7/12/2017
+ * @since 1.0
  */
 open class TinifyAction internal constructor() : AnAction() {
 

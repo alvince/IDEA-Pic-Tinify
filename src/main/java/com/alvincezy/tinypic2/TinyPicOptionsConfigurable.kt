@@ -18,8 +18,8 @@ import javax.swing.*
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 2.0, 7/18/2017
- * @since 2.0
+ * @version 1.0, 7/18/2017
+ * @since 1.0
  */
 class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll, Disposable {
 

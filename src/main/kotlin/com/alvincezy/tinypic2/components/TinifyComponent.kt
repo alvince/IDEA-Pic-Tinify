@@ -17,8 +17,8 @@ import javax.swing.event.HyperlinkEvent
  * Created by alvince on 17-7-20.
  *
  * @author alvince.zy@gmail.com
- * @version 2.0.1, 7/20/2017
- * @since 2.0.1
+ * @version 1.0.1, 7/20/2017
+ * @since 1.0.1
  */
 class TinifyComponent(project: Project) : AbstractProjectComponent(project) {
 

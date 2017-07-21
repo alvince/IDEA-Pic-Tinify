@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 2.0.1, 7/20/2017
- * @since 2.0
+ * @version 1.0.1, 7/20/2017
+ * @since 1.0
  */
 @State(name = "TinyPicPreferences", storages = @Storage(value = "$APP_CONFIG$/TinyPic2.xml"))
 public class Preferences implements PersistentStateComponent<Preferences> {
