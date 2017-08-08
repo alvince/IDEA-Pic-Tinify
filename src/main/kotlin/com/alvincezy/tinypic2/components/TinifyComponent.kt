@@ -17,7 +17,7 @@ import javax.swing.event.HyperlinkEvent
  * Created by alvince on 17-7-20.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.1, 7/20/2017
+ * @version 1.0.1, 7/21/2017
  * @since 1.0.1
  */
 class TinifyComponent(project: Project) : AbstractProjectComponent(project) {
@@ -36,11 +36,10 @@ class TinifyComponent(project: Project) : AbstractProjectComponent(project) {
     override fun projectOpened() {
         if (StringUtils.isEmpty(preferences.apiKey)
                 && !PropertiesComponent.getInstance().getBoolean(PROP_PROMPT_SETTINGS_IGNORE, false)) {
-            val notificationContent = ("当前 Api Key 为空，请设置 Api Key" +
-                    "<br/>%s&nbsp;&nbsp;&nbsp;&nbsp;%s").format(Constants.HTML_LINK_SETTINGS, Constants.HTML_LINK_IGNORE)
-            val notification = Notification(
-                    "TinyPic2 Settings", "TinyPic 2",
-                    notificationContent, NotificationType.WARNING,
+            val notificationContent = "当前 Api Key 为空，请设置 Api Key<br/>%s&nbsp;&nbsp;&nbsp;&nbsp;%s"
+                    .format(Constants.HTML_LINK_SETTINGS, Constants.HTML_LINK_IGNORE)
+            val notification = Notification(Constants.DISPLAY_GROUP_PROMPT,
+                    Constants.APP_NAME, notificationContent, NotificationType.WARNING,
                     object : NotificationListener.Adapter() {
                         override fun hyperlinkActivated(notification: Notification, event: HyperlinkEvent) {
                             notification.expire()

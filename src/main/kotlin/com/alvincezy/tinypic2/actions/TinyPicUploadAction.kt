@@ -1,8 +1,12 @@
 package com.alvincezy.tinypic2.actions
 
+import com.alvincezy.tinypic2.Constants
 import com.alvincezy.tinypic2.TinifyFlowable
 import com.alvincezy.tinypic2.TinyPicOptionsConfigurable
 import com.alvincezy.tinypic2.model.VirtualFileAware
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationType
+import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileChooser.FileChooser
@@ -15,7 +19,6 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
-import com.intellij.openapi.wm.impl.status.StatusBarUtil
 import com.tinify.Tinify
 import org.apache.commons.lang.StringUtils
 import rx.Observable
@@ -56,7 +59,7 @@ class TinyPicUploadAction : TinifyAction() {
     private fun pickFiles(project: Project) {
         tinifySource.clear()
         val descriptor = FileChooserDescriptor(true, true, false, false, false, true)
-        val selectedFiles = FileChooser.chooseFiles(descriptor, project, null)
+        val selectedFiles = FileChooser.chooseFiles(descriptor, project, project.baseDir)
         Observable.just(selectedFiles)
                 .subscribeOn(Schedulers.io())
                 .filter { selectedFiles.isNotEmpty() }
@@ -71,8 +74,7 @@ class TinyPicUploadAction : TinifyAction() {
     private fun parseFilePicked(file: VirtualFile) {
         VfsUtilCore.visitChildrenRecursively(file, object : VirtualFileVisitor<Any>() {
             override fun visitFile(file: VirtualFile): Boolean {
-                val filename = file.name.toLowerCase()
-                if (filename.endsWith(".jpg") || filename.endsWith(".png")) {
+                if (file.name.endsWith(".jpg", true) || file.name.endsWith(".png", true)) {
                     val fileW = VirtualFileAware(file)
                     if (tinifySource.contains(fileW))
                         return false
@@ -87,17 +89,20 @@ class TinyPicUploadAction : TinifyAction() {
         taskPool.clear()
         if (Tinify.validate()) {
             isEnabledInModalContext = false
-            ProgressManager.getInstance().run(object : Task.Backgroundable(project, "Perform Picture Tinify") {
-                override fun run(indicator: ProgressIndicator) {
-                    tinifySource.map { it.file }
-                            .forEach { file -> tinifyThreadPool.execute(TaskRunnable(file)) }
-                    while (true) {
-                        if (taskPool.isEmpty()) break
-                    }
-                    indicator.text = "Complete Picture Tinify"
-                    StatusBarUtil.setStatusBarInfo(project, "图片压缩完成")
-                }
-            })
+            ProgressManager.getInstance().run(
+                    object : Task.Backgroundable(project, Constants.APP_NAME, false) {
+                        override fun run(indicator: ProgressIndicator) {
+                            indicator.text = "Perform Picture Tinify"
+                            tinifySource.map { it.file }
+                                    .forEach { file -> tinifyThreadPool.execute(TaskRunnable(file)) }
+                            while (true) {
+                                if (taskPool.isEmpty()) break
+                            }
+                            indicator.text2 = "Complete Picture Tinify"
+                            Notifications.Bus.notify(Notification(Constants.DISPLAY_GROUP_PROMPT,
+                                    Constants.APP_NAME, "图片压缩完成", NotificationType.INFORMATION))
+                        }
+                    })
         } else {
             Messages.showInfoMessage("Validate failure.", TAG)
         }
@@ -118,12 +123,10 @@ class TinyPicUploadAction : TinifyAction() {
 
             if (flowable.performTinify()) {
                 try {
-
                     flowable.result()!!.toFile(name)
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-
             }
             flowable.file().refresh(true, false)
             taskPool.remove(name)

@@ -1,12 +1,28 @@
 <idea-plugin>
     <id>com.alvincezy.TinyPic2</id>
-    <name>TinyPic 2</name>
+    <name>Tinify Picture</name>
     <version>1.0.1</version>
     <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince/TinyPic2">alvince</vendor>
 
     <description><![CDATA[
-      Compress images with TinyPng api.<br/>
-      See <a href="https://tinypng.com">https://tinypng.com</a>
+      <h1>Tinify Picture</h1>
+      <br/>
+      <b>
+      <a href="https://github.com/alvince/TinyPic2">Home Page</a> |
+      <a href="https://github.com/alvince/TinyPic2">GitHub</a> |
+      <a href="https://github.com/alvince/TinyPic2/issues">Issues</a>
+      </b>
+      <!--<a href="https://plugins.jetbrains.com/idea/plugin/8579">Plugin Page</a> |-->
+      <br/>
+      <br/>
+
+      Compress images with TinyPng api.
+      <br/>
+      <br/>
+      👁️‍️ Website <a href="https://tinypng.com">https://tinypng.com</a>
+      <br/>
+      <br/>
+      <i>Compiled with Java 1.8 and Kotlin 1.1</i>
     ]]></description>
 
     <change-notes><![CDATA[
