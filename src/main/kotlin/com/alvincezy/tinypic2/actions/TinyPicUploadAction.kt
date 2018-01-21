@@ -21,8 +21,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
 import com.tinify.Tinify
 import org.apache.commons.lang.StringUtils
-import rx.Observable
-import rx.schedulers.Schedulers
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
@@ -31,7 +29,7 @@ import java.util.concurrent.Executors
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.1, 7/21/2017
+ * @version 1.0.1, 1/21/2018
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
@@ -60,14 +58,7 @@ class TinyPicUploadAction : TinifyAction() {
         tinifySource.clear()
         val descriptor = FileChooserDescriptor(true, true, false, false, false, true)
         val selectedFiles = FileChooser.chooseFiles(descriptor, project, project.baseDir)
-        Observable.just(selectedFiles)
-                .subscribeOn(Schedulers.io())
-                .filter { selectedFiles.isNotEmpty() }
-                .subscribe({
-                    selectedFiles.forEach { parseFilePicked(it) }
-//                    logger.debug("${tinifySource.toArray()}")
-                    uploadAndTinify()
-                }, { it.printStackTrace() })
+        FilePickTask(selectedFiles).start()
     }
 
     @Suppress("name_shadowing")
@@ -108,6 +99,16 @@ class TinyPicUploadAction : TinifyAction() {
         }
     }
 
+
+    internal inner class FilePickTask(private val files: Array<VirtualFile>) : Thread() {
+        override fun run() {
+            super.run()
+            if (files.isNotEmpty()) {
+                files.forEach { parseFilePicked(it) }
+                uploadAndTinify()
+            }
+        }
+    }
 
     internal inner class TaskRunnable(file: VirtualFile) : Runnable {
         private val name: String = file.path

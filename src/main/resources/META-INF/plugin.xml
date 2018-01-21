@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.alvincezy.TinyPic2</id>
     <name>Tinify Picture</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince/TinyPic2">alvince</vendor>
 
     <description><![CDATA[
@@ -26,7 +26,8 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      Fix compat android studio.<br/>
+      <h3>1.0.2 - Shrink plugin size</h3>
+      <h3>1.0.1 - Fix compat android studio</h3>
     ]]>
     </change-notes>
 
