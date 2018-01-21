@@ -15,7 +15,7 @@
 
 ## 安装 & 使用
 
-1.在File->Settings->Plugins里安装，点击这里➡️[下载](http://osc7hu59y.bkt.clouddn.com/archives/GitHub/releases/tinypicTinyPic2-1.0.0.zip "v1.0.0")
+1.在File->Settings->Plugins里安装，点击这里➡️[下载](https://github.com/alvince/TinyPic2/releases "v1.0.2")
 
 2.安装完后重启，第一次使用会提示设置 Api Key
 
