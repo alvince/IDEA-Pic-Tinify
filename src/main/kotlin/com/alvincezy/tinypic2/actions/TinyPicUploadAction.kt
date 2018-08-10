@@ -29,7 +29,7 @@ import java.util.concurrent.Executors
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.1, 1/21/2018
+ * @version 1.0.2, 2018/8/10
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
@@ -38,7 +38,8 @@ class TinyPicUploadAction : TinifyAction() {
         private val TAG = "TinyPicUploadAction"
     }
 
-    @Volatile internal var taskPool = HashMap<String, Runnable>()
+    @Volatile
+    internal var taskPool = HashMap<String, Runnable>()
 
     private val logger = Logger.getInstance(javaClass)
     private val tinifySource = ArrayList<VirtualFileAware>()
@@ -65,10 +66,12 @@ class TinyPicUploadAction : TinifyAction() {
     private fun parseFilePicked(file: VirtualFile) {
         VfsUtilCore.visitChildrenRecursively(file, object : VirtualFileVisitor<Any>() {
             override fun visitFile(file: VirtualFile): Boolean {
-                if (file.name.endsWith(".jpg", true) || file.name.endsWith(".png", true)) {
+                if (file.name.endsWith(".jpg", true)
+                        || file.name.endsWith(".png", true)) {
                     val fileW = VirtualFileAware(file)
-                    if (tinifySource.contains(fileW))
+                    if (tinifySource.contains(fileW)) {
                         return false
+                    }
                     tinifySource.add(fileW)
                 }
                 return true
@@ -115,7 +118,7 @@ class TinyPicUploadAction : TinifyAction() {
         private val flowable: TinifyFlowable = TinifyFlowable(file)
 
         override fun run() {
-            taskPool.put(name, this)
+            taskPool[name] = this
             try {
                 flowable.load()
             } catch (e: IOException) {

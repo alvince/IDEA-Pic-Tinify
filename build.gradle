@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.60'
 
     repositories {
         mavenCentral()
@@ -9,13 +9,13 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.2.0-SNAPSHOT"
+        classpath "org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.0-SNAPSHOT"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.2.14"
+    id "org.jetbrains.intellij" version "0.3.0"
 }
 
 repositories {
@@ -28,17 +28,17 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'kotlin'
 
 intellij {
-    version 'IC-2017.1.5'
-    pluginName 'TinyPic2'
-    intellij.updateSinceUntilBuild false
+    version 'IC-2018.2.1'
+    plugins 'coverage'
+    pluginName "${plugin_name}"
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile 'com.tinify:tinify:1.5.1'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.tinify:tinify:1.6.0-beta'
 }
 
 apply plugin: 'idea'
 
 group 'com.alvincezy'
-version '1.0.2'
+version "${plugin_version}"
