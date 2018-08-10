@@ -3,6 +3,8 @@ package com.alvincezy.tinypic2.actions
 import com.alvincezy.tinypic2.Constants
 import com.alvincezy.tinypic2.TinifyFlowable
 import com.alvincezy.tinypic2.TinyPicOptionsConfigurable
+import com.alvincezy.tinypic2.exts.supportTinify
+import com.alvincezy.tinypic2.io
 import com.alvincezy.tinypic2.model.VirtualFileAware
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
@@ -23,7 +25,6 @@ import com.tinify.Tinify
 import org.apache.commons.lang.StringUtils
 import java.io.IOException
 import java.util.*
-import java.util.concurrent.Executors
 
 /**
  * Created by alvince on 2017/6/28.
@@ -35,7 +36,7 @@ import java.util.concurrent.Executors
 class TinyPicUploadAction : TinifyAction() {
 
     companion object {
-        private val TAG = "TinyPicUploadAction"
+        private const val TAG = "TinyPicUploadAction"
     }
 
     @Volatile
@@ -43,7 +44,6 @@ class TinyPicUploadAction : TinifyAction() {
 
     private val logger = Logger.getInstance(javaClass)
     private val tinifySource = ArrayList<VirtualFileAware>()
-    private val tinifyThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
     override fun performAction(actionEvent: AnActionEvent, project: Project) {
         super.performAction(actionEvent, project)
@@ -66,8 +66,7 @@ class TinyPicUploadAction : TinifyAction() {
     private fun parseFilePicked(file: VirtualFile) {
         VfsUtilCore.visitChildrenRecursively(file, object : VirtualFileVisitor<Any>() {
             override fun visitFile(file: VirtualFile): Boolean {
-                if (file.name.endsWith(".jpg", true)
-                        || file.name.endsWith(".png", true)) {
+                if (file.supportTinify()) {
                     val fileW = VirtualFileAware(file)
                     if (tinifySource.contains(fileW)) {
                         return false
@@ -81,25 +80,31 @@ class TinyPicUploadAction : TinifyAction() {
 
     private fun uploadAndTinify() {
         taskPool.clear()
-        if (Tinify.validate()) {
-            isEnabledInModalContext = false
-            ProgressManager.getInstance().run(
-                    object : Task.Backgroundable(project, Constants.APP_NAME, false) {
-                        override fun run(indicator: ProgressIndicator) {
-                            indicator.text = "Perform Picture Tinify"
-                            tinifySource.map { it.file }
-                                    .forEach { file -> tinifyThreadPool.execute(TaskRunnable(file)) }
-                            while (true) {
-                                if (taskPool.isEmpty()) break
-                            }
-                            indicator.text2 = "Complete Picture Tinify"
-                            Notifications.Bus.notify(Notification(Constants.DISPLAY_GROUP_PROMPT,
-                                    Constants.APP_NAME, "图片压缩完成", NotificationType.INFORMATION))
-                        }
-                    })
-        } else {
+
+        if (!Tinify.validate()) {
             Messages.showInfoMessage("Validate failure.", TAG)
         }
+
+        isEnabledInModalContext = false
+        ProgressManager.getInstance().run(
+                object : Task.Backgroundable(project, Constants.APP_NAME, false) {
+                    override fun run(indicator: ProgressIndicator) {
+                        indicator.text = "Perform Picture Tinify"
+                        tinifySource.map { it.file }
+                                .forEach { file -> io(TaskRunnable(file)) }
+                        do {
+                            try {
+                                Thread.sleep(50L)
+                            } catch (ex: Exception) {
+                                logger.error(ex)
+                            }
+                        } while (!taskPool.isEmpty())
+
+                        indicator.text2 = "Complete Picture Tinify"
+                        Notifications.Bus.notify(Notification(Constants.DISPLAY_GROUP_PROMPT,
+                                Constants.APP_NAME, "图片压缩完成", NotificationType.INFORMATION))
+                    }
+                })
     }
 
 
@@ -114,26 +119,22 @@ class TinyPicUploadAction : TinifyAction() {
     }
 
     internal inner class TaskRunnable(file: VirtualFile) : Runnable {
-        private val name: String = file.path
+        private val path: String = file.path
         private val flowable: TinifyFlowable = TinifyFlowable(file)
 
         override fun run() {
-            taskPool[name] = this
+            taskPool[path] = this
+
             try {
                 flowable.load()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
 
-            if (flowable.performTinify()) {
-                try {
-                    flowable.result()!!.toFile(name)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+            if (flowable.tinify()) {
+                flowable.file().refresh(true, false)
+                taskPool.remove(path)
             }
-            flowable.file().refresh(true, false)
-            taskPool.remove(name)
         }
     }
 }

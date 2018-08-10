@@ -1,16 +1,15 @@
 package com.alvincezy.tinypic2
 
+import com.alvincezy.tinypic2.ui.PreferencesPanel
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurationException
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
-import com.alvincezy.tinypic2.ui.PreferencesPanel
-import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.util.Disposer
 import org.jetbrains.annotations.Nls
-
-import javax.swing.*
+import javax.swing.JComponent
 
 /**
  * TinyPic 选项配置
