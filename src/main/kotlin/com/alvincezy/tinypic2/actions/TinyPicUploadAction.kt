@@ -1,10 +1,7 @@
 package com.alvincezy.tinypic2.actions
 
-import com.alvincezy.tinypic2.Constants
-import com.alvincezy.tinypic2.TinifyFlowable
-import com.alvincezy.tinypic2.TinyPicOptionsConfigurable
+import com.alvincezy.tinypic2.*
 import com.alvincezy.tinypic2.exts.supportTinify
-import com.alvincezy.tinypic2.io
 import com.alvincezy.tinypic2.model.VirtualFileAware
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
@@ -30,7 +27,7 @@ import java.util.*
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.2, 2018/8/10
+ * @version 1.0.3-SNAPSHOT, 2018/8/11
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
@@ -40,7 +37,7 @@ class TinyPicUploadAction : TinifyAction() {
     }
 
     @Volatile
-    internal var taskPool = HashMap<String, Runnable>()
+    private var taskPool = HashMap<String, Runnable>()
 
     private val logger = Logger.getInstance(javaClass)
     private val tinifySource = ArrayList<VirtualFileAware>()
@@ -59,7 +56,12 @@ class TinyPicUploadAction : TinifyAction() {
         tinifySource.clear()
         val descriptor = FileChooserDescriptor(true, true, false, false, false, true)
         val selectedFiles = FileChooser.chooseFiles(descriptor, project, project.baseDir)
-        FilePickTask(selectedFiles).start()
+        tinify {
+            if (selectedFiles.isNotEmpty()) {
+                selectedFiles.forEach { parseFilePicked(it) }
+                uploadAndTinify()
+            }
+        }
     }
 
     @Suppress("name_shadowing")
@@ -91,6 +93,7 @@ class TinyPicUploadAction : TinifyAction() {
                     override fun run(indicator: ProgressIndicator) {
                         indicator.text = "Perform Picture Tinify"
                         tinifySource.map { it.file }
+                                .filter { TinifyStack.pushFileTinify(it.path) }
                                 .forEach { file -> io(TaskRunnable(file)) }
                         do {
                             try {
@@ -107,16 +110,6 @@ class TinyPicUploadAction : TinifyAction() {
                 })
     }
 
-
-    internal inner class FilePickTask(private val files: Array<VirtualFile>) : Thread() {
-        override fun run() {
-            super.run()
-            if (files.isNotEmpty()) {
-                files.forEach { parseFilePicked(it) }
-                uploadAndTinify()
-            }
-        }
-    }
 
     internal inner class TaskRunnable(file: VirtualFile) : Runnable {
         private val path: String = file.path
@@ -135,6 +128,7 @@ class TinyPicUploadAction : TinifyAction() {
                 flowable.file().refresh(true, false)
                 taskPool.remove(path)
             }
+            TinifyStack.removeFileTinify(path)
         }
     }
 }
