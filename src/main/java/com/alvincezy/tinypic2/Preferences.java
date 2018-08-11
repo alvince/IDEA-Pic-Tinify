@@ -5,6 +5,7 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -30,7 +31,7 @@ public class Preferences implements PersistentStateComponent<Preferences> {
     }
 
     @Override
-    public void loadState(Preferences preferences) {
+    public void loadState(@NotNull Preferences preferences) {
         XmlSerializerUtil.copyBean(preferences, this);
     }
 

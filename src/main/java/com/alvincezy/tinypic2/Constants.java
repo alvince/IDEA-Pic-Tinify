@@ -4,10 +4,12 @@ package com.alvincezy.tinypic2;
  * Created by alvince on 17-6-28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.1, 7/21/2017
+ * @version 1.0.3-SNAPSHOT, 2018/8/12
  * @since 1.0
  */
 public interface Constants {
+    boolean DEBUG = true;
+
     String APP_NAME = "Tinify Picture";    // Plugin name
 
     String DISPLAY_GROUP_PROMPT = "Tinify Picture Prompt";

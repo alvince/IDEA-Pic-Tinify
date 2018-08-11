@@ -1,8 +1,11 @@
 <idea-plugin>
     <id>com.alvincezy.TinyPic2</id>
     <name>Tinify Picture</name>
-    <version>1.0.2</version>
-    <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince/TinyPic2">alvince</vendor>
+    <version>1.0.3-SNAPSHOT</version>
+    <vendor email="alvince.zy@gmail.com"
+            url="https://github.com/alvince/IDEA-Pic-Tinify">
+        alvince
+    </vendor>
 
     <description><![CDATA[
       <h1>Tinify Picture</h1>
@@ -26,6 +29,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+      <h3>1.0.3 - Optimize processing tinify</h3>
       <h3>1.0.2 - Shrink plugin size</h3>
       <h3>1.0.1 - Fix compat android studio</h3>
     ]]>
@@ -54,10 +58,17 @@
 
     <actions>
         <action class="com.alvincezy.tinypic2.actions.TinyPicUploadAction"
-                id="com.alvincezy.tinypic2.actions.TinyPicUploadAction"
+                id="$PicTinify.TinyPicUploadAction"
+                text="Select files and tinify"
                 icon="/icons/ic_pic_select.png">
-            <add-to-group group-id="MainToolBar" anchor="last"/>
         </action>
+
+        <group id="PicTinify.ActionToolbar" text="Picture Tinify Toolbar Actions">
+            <separator/>
+            <reference ref="$PicTinify.TinyPicUploadAction"/>
+            <separator/>
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+        </group>
     </actions>
 
 </idea-plugin>

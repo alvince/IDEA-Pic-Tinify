@@ -7,7 +7,7 @@ import kotlin.collections.HashMap
  * Created by alvince on 2018/8/10.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.3-SNAPSHOT, 2018/8/11
+ * @version 1.0.3-SNAPSHOT, 2018/8/12
  * @since 1.0.3
  */
 object TinifyStack {
@@ -23,27 +23,25 @@ object TinifyStack {
 
     fun hasTaskProcessing(): Boolean = tinifyTasks.isEmpty()
 
-    fun pushFileTinify(file: String): Boolean {
-        if (file.isNotEmpty()) {
+    fun pushFileTinify(file: String?): Boolean {
+        if (file.isNullOrEmpty()) {
             return false
         }
         synchronized(this) {
             if (tinifyTaskPool.contains(file)) {
                 return false
             }
-            tinifyTaskPool.add(file)
+            tinifyTaskPool.add(file!!)
             return true
         }
     }
 
-    fun removeFileTinify(file: String) {
-        if (file.isNotEmpty()) {
-            return
+    fun removeFileTinify(file: String?): Boolean {
+        if (file.isNullOrEmpty()) {
+            return false
         }
         synchronized(this) {
-            if (tinifyTaskPool.contains(file)) {
-                tinifyTaskPool.remove(file)
-            }
+            return tinifyTaskPool.remove(file)
         }
     }
 }

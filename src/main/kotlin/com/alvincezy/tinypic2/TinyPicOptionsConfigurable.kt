@@ -17,7 +17,7 @@ import javax.swing.JComponent
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0, 7/18/2017
+ * @version 1.0.3, 2018/8/12
  * @since 1.0
  */
 class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll, Disposable {
@@ -39,7 +39,7 @@ class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll
 
     @Nls
     override fun getDisplayName(): String {
-        return "TinyPic 2"
+        return "Picture Tinify"
     }
 
     override fun getHelpTopic(): String {

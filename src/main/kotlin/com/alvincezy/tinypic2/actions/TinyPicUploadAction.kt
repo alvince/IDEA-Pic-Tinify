@@ -3,9 +3,6 @@ package com.alvincezy.tinypic2.actions
 import com.alvincezy.tinypic2.*
 import com.alvincezy.tinypic2.exts.supportTinify
 import com.alvincezy.tinypic2.model.VirtualFileAware
-import com.intellij.notification.Notification
-import com.intellij.notification.NotificationType
-import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileChooser.FileChooser
@@ -19,7 +16,6 @@ import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
 import com.tinify.Tinify
-import org.apache.commons.lang.StringUtils
 import java.io.IOException
 import java.util.*
 
@@ -27,7 +23,7 @@ import java.util.*
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.3-SNAPSHOT, 2018/8/11
+ * @version 1.0.3-SNAPSHOT, 2018/8/12
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
@@ -44,23 +40,50 @@ class TinyPicUploadAction : TinifyAction() {
 
     override fun performAction(actionEvent: AnActionEvent, project: Project) {
         super.performAction(actionEvent, project)
-        if (StringUtils.isEmpty(preferences.apiKey)) {
+        val apiKey = preferences.apiKey
+        if (apiKey.isEmpty()) {
             TinyPicOptionsConfigurable.showSettingsDialog(project)
         } else {
-            Tinify.setKey(preferences.apiKey)
-            pickFiles(project)
+            Tinify.setKey(apiKey)
+            pickAndTinify(project)
         }
     }
 
-    private fun pickFiles(project: Project) {
+    private fun pickAndTinify(project: Project) {
         tinifySource.clear()
         val descriptor = FileChooserDescriptor(true, true, false, false, false, true)
         val selectedFiles = FileChooser.chooseFiles(descriptor, project, project.baseDir)
+        enable(false)
         tinify {
-            if (selectedFiles.isNotEmpty()) {
-                selectedFiles.forEach { parseFilePicked(it) }
-                uploadAndTinify()
+            if (selectedFiles.isEmpty()) {
+                enable(true)
+                return@tinify
             }
+            ProgressManager.getInstance().run(object : Task.Backgroundable(project, Constants.APP_NAME, false) {
+                override fun run(indicator: ProgressIndicator) {
+                    indicator.text = "Perform Picture Tinify"
+                    selectedFiles.forEach { parseFilePicked(it) }
+                    console("tinify source ->\n\t$tinifySource")
+                    uploadAndTinify()
+                    console("task pool ->\n\t$taskPool")
+                    if (taskPool.isEmpty()) {
+                        return
+                    }
+
+                    do {
+                        try {
+                            Thread.sleep(50L)
+                        } catch (ex: Exception) {
+                            err(ex.stackTrace.toString())
+                            logger.error(ex.message, ex)
+                        }
+                    } while (!taskPool.isEmpty())
+
+                    indicator.text2 = "Complete Picture Tinify"
+                    notify("图片压缩完成")
+                    enable(true)
+                }
+            })
         }
     }
 
@@ -84,49 +107,41 @@ class TinyPicUploadAction : TinifyAction() {
         taskPool.clear()
 
         if (!Tinify.validate()) {
-            Messages.showInfoMessage("Validate failure.", TAG)
+            Messages.showInfoMessage("Tinify invalidate.", TAG)
+            return
         }
 
-        isEnabledInModalContext = false
-        ProgressManager.getInstance().run(
-                object : Task.Backgroundable(project, Constants.APP_NAME, false) {
-                    override fun run(indicator: ProgressIndicator) {
-                        indicator.text = "Perform Picture Tinify"
-                        tinifySource.map { it.file }
-                                .filter { TinifyStack.pushFileTinify(it.path) }
-                                .forEach { file -> io(TaskRunnable(file)) }
-                        do {
-                            try {
-                                Thread.sleep(50L)
-                            } catch (ex: Exception) {
-                                logger.error(ex)
-                            }
-                        } while (!taskPool.isEmpty())
-
-                        indicator.text2 = "Complete Picture Tinify"
-                        Notifications.Bus.notify(Notification(Constants.DISPLAY_GROUP_PROMPT,
-                                Constants.APP_NAME, "图片压缩完成", NotificationType.INFORMATION))
-                    }
-                })
+        tinifySource.map { it.file }
+                .filter { TinifyStack.pushFileTinify(it.path) }
+                .forEach { file ->
+                    console("io -> tinify[ $file ]")
+                    io(TaskRunnable(file))
+                }
     }
 
 
-    internal inner class TaskRunnable(file: VirtualFile) : Runnable {
-        private val path: String = file.path
+    inner class TaskRunnable(file: VirtualFile) : Runnable {
+        private val name = file.name
+        private val path = file.path
         private val flowable: TinifyFlowable = TinifyFlowable(file)
 
-        override fun run() {
-            taskPool[path] = this
+        init {
+            taskPool[name] = this
+        }
 
+        override fun run() {
             try {
                 flowable.load()
-            } catch (e: IOException) {
-                e.printStackTrace()
+            } catch (ex: IOException) {
+                console(ex)
+                err(ex.stackTrace.toString())
+                logger.error(ex.message, ex)
+                return
             }
 
             if (flowable.tinify()) {
-                flowable.file().refresh(true, false)
-                taskPool.remove(path)
+                taskPool.remove(name)
+                flowable.file().refresh(false, false)
             }
             TinifyStack.removeFileTinify(path)
         }
