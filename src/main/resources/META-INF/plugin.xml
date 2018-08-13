@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.alvincezy.TinyPic2</id>
     <name>Tinify Picture</name>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <vendor email="alvince.zy@gmail.com"
             url="https://github.com/alvince/IDEA-Pic-Tinify">
         alvince
