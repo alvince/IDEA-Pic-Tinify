@@ -5,7 +5,7 @@ IDEA-Pic-Tinify
 
 压缩功能由 TinyPng 网站提供 https://tinypng.com/ —— powerd by [tinify-java](https://github.com/tinify/tinify-java)
 
-![tinypng_homepage.png](./screenshots/tinypng_homepage.png "TinyPng")
+![tinypng_homepage.png](art/tinypng_homepage.png "TinyPng")
 
 网站 web 端一次只能上传 20 张图片，手动操作需要重复上传下载解压。
 
@@ -14,20 +14,20 @@ IDEA-Pic-Tinify
 > 在开发者页面 [tinypng](https://tinypng.com/developers) 申请 api key。  
 单个 api key 每月有 500 次的免费压缩额度，增加额度需要另外付费。
 
-![tinypng_develop.png](./screenshots/tinypng_develop.png "TinyPng")
+![tinypng_develop.png](art/tinypng_develop.png "TinyPng")
 
 ## 安装 & 使用
 
-1. 打开 File -> Settings -> Plugins 选择本地安装，点击这里 ➡️ [下载](https://github.com/alvince/TinyPic2/releases/latest "v1.0.2")
+1. 打开 File -> Settings -> Plugins 选择本地安装，点击这里️ 👉 [下载](https://github.com/alvince/TinyPic2/releases/latest "v1.0.3")
 
 2. 安装完后重启，第一次使用会提示设置 Api Key  
-![notification.png](http://osc7hu59y.bkt.clouddn.com/image/GitHub/art/tinypic/notification.png "Notification")
+![notification.png](art/notification.png "Notification")
 
 3. 输入在 [developers](https://tinypng.com/developers) 申请的 api key  
-![settings.png](http://osc7hu59y.bkt.clouddn.com/image/GitHub/art/tinypic/settings.png "Settings")
+![settings.png](art/settings.png "Settings")
 
 4. 选择图片（多选，允许 `png` `jpg` 文件类型），完成图片压缩  
-![select_images.png](./screenshots/select_images.png "Pick Images")
+![select_images.png](art/select_images.png "Pick Images")
 
 LICENSE
 ---
