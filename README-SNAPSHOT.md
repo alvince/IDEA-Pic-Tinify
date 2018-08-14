@@ -18,7 +18,7 @@ IDEA-Pic-Tinify
 
 ## 安装 & 使用
 
-1. 打开 File -> Settings -> Plugins 选择本地安装，点击这里️ 👉 [下载](https://github.com/alvince/IDEA-Pic-Tinify/releases/latest "v1.0.3")
+1. 打开 File -> Settings -> Plugins 选择本地安装，点击这里️ 👉 [下载](https://github.com/alvince/IDEA-Pic-Tinify/releases/tag/v1.1.0-dev "SNAPSHOT")
 
 2. 安装完后重启，第一次使用会提示设置 Api Key  
 ![notification.png](art/notification.png "Notification")
@@ -29,12 +29,11 @@ IDEA-Pic-Tinify
 4. 选择图片（多选，允许 `png` `jpg` 文件类型），完成图片压缩  
 ![select_images.png](art/select_images.png "Pick Images")
 
-## 🔗 [SNAPSHOT](README-SNAPSHOT.md)
+5. 快速选择，项目文件 或 版本控制面板的 `Local Changes` 视图中，图片文件右键选择 "Tinify image file" 可直接压缩  
+![action_project_view](art/tinify_project.png)
 
-## TODO
-
-- [ ] 备份原图
-- [ ] 批量压缩图片记住上次选择路径
+6. 打开图片编辑器右键菜单选择 "Tinify image file" 可直接压缩  
+![action_edit_menu](art/tinify_editor.png)
 
 LICENSE
 ---
