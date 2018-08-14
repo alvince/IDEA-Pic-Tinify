@@ -29,11 +29,11 @@ IDEA-Pic-Tinify
 4. 选择图片（多选，允许 `png` `jpg` 文件类型），完成图片压缩  
 ![select_images.png](art/select_images.png "Pick Images")
 
-## 🔗 [SNAPSHOT](README-SNAPSHOT.md)
+## 🔗 [SNAPSHOT](README-SNAPSHOT.md)
 
 ## TODO
 
-- [ ] 备份原图
+- [ ] 备份原图
 - [ ] 批量压缩图片记住上次选择路径
 
 LICENSE
