@@ -1,6 +1,8 @@
 IDEA-Pic-Tinify
 ===
 
+🔗 [SNAPSHOT](README-SNAPSHOT.md)  
+
 ## 快速压缩图片的 Intellij 插件
 
 压缩功能由 TinyPng 网站提供 https://tinypng.com/ —— powerd by [tinify-java](https://github.com/tinify/tinify-java)
@@ -28,8 +30,6 @@ IDEA-Pic-Tinify
 
 4. 选择图片（多选，允许 `png` `jpg` 文件类型），完成图片压缩  
 ![select_images.png](art/select_images.png "Pick Images")
-
-## 🔗 [SNAPSHOT](README-SNAPSHOT.md)
 
 ## TODO
 
