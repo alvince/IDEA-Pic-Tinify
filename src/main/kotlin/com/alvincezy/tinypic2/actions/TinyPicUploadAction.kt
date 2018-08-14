@@ -23,7 +23,7 @@ import java.util.*
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.3-SNAPSHOT, 2018/8/12
+ * @version 1.1.0-SNAPSHOT, 2018/8/14
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
@@ -39,7 +39,6 @@ class TinyPicUploadAction : TinifyAction() {
     private val tinifySource = ArrayList<VirtualFileAware>()
 
     override fun performAction(actionEvent: AnActionEvent, project: Project) {
-        super.performAction(actionEvent, project)
         val apiKey = preferences.apiKey
         if (apiKey.isEmpty()) {
             TinyPicOptionsConfigurable.showSettingsDialog(project)

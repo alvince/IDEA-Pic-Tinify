@@ -1,11 +1,8 @@
-<idea-plugin>
+<idea-plugin url="https://github.com/alvince/IDEA-Pic-Tinify">
     <id>com.alvincezy.TinyPic2</id>
     <name>Tinify Picture</name>
-    <version>1.0.3</version>
-    <vendor email="alvince.zy@gmail.com"
-            url="https://github.com/alvince/IDEA-Pic-Tinify">
-        alvince
-    </vendor>
+    <version>1.1.0-SNAPSHOT</version>
+    <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince">alvince</vendor>
 
     <description><![CDATA[
       <h1>Tinify Picture</h1>
@@ -25,15 +22,16 @@
       👁️‍️ Website <a href="https://tinypng.com">https://tinypng.com</a>
       <br/>
       <br/>
-      <i>Compiled with Java 1.8 and Kotlin 1.1</i>
+      <i>Compiled with Java 1.8 and Kotlin 1.2</i>
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>1.0.3 - Optimize processing tinify</h3>
-      <h3>1.0.2 - Shrink plugin size</h3>
-      <h3>1.0.1 - Fix compat android studio</h3>
-    ]]>
-    </change-notes>
+      <ul>
+        <li>1.0.3 - Optimize processing tinify</li>
+        <li>1.0.2 - Shrink plugin size</li>
+        <li>1.0.1 - Fix compat android studio</li>
+      </ul>
+    ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="145.0"/>
@@ -62,12 +60,32 @@
                 text="Select files and tinify"
                 icon="/icons/ic_tinify_select.png">
         </action>
+        <action class="com.alvincezy.tinypic2.actions.TinifyImageAction"
+                id="$PicTinify.TinifyImageAction"
+                icon="/icons/ic_tinify_select.png"
+                text="Tinify image file"/>
 
         <group id="PicTinify.ActionToolbar" text="Picture Tinify Toolbar Actions">
             <separator/>
             <reference ref="$PicTinify.TinyPicUploadAction"/>
             <separator/>
+
             <add-to-group group-id="MainToolBar" anchor="last"/>
+        </group>
+        <group id="PicTinify.EditorContext">
+            <separator/>
+            <reference ref="$PicTinify.TinifyImageAction"/>
+            <separator/>
+
+            <add-to-group group-id="Images.EditorPopupMenu"/>
+        </group>
+        <group id="PicTinify.ViewContext">
+            <separator/>
+            <reference ref="$PicTinify.TinifyImageAction"/>
+            <separator/>
+
+            <add-to-group group-id="ProjectViewPopupMenu"/>
+            <add-to-group group-id="ChangesViewPopupMenu"/>
         </group>
     </actions>
 

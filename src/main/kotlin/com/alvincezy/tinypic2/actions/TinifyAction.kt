@@ -9,10 +9,10 @@ import com.intellij.openapi.project.Project
  * Created by alvince on 17-7-11.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.3-SNAPSHOT, 2018/8/12
+ * @version 1.1.0-SNAPSHOT, 2018/8/14
  * @since 1.0
  */
-open class TinifyAction internal constructor() : AnAction(), AnAction.TransparentUpdate {
+abstract class TinifyAction internal constructor() : AnAction(), AnAction.TransparentUpdate {
 
     companion object {
         var isEnable: Boolean = true
@@ -33,11 +33,23 @@ open class TinifyAction internal constructor() : AnAction(), AnAction.Transparen
 
     override fun update(e: AnActionEvent?) {
         super.update(e)
-        val presentation = actionEvent?.presentation
-        presentation?.isEnabled = TinifyAction.isEnable
+
+        if (validateAction(e)) {
+            actionEvent?.presentation?.isEnabled = TinifyAction.isEnable
+        }
     }
 
-    protected open fun performAction(actionEvent: AnActionEvent, project: Project) {}
+    /**
+     * Perform this action from user
+     */
+    protected abstract fun performAction(actionEvent: AnActionEvent, project: Project)
+
+    /**
+     * Validate if current action should appeared
+     *
+     * @return true as default show this action
+     */
+    protected open fun validateAction(actionEvent: AnActionEvent?): Boolean = true
 
     protected fun enable(enable: Boolean) {
         TinifyAction.isEnable = enable
