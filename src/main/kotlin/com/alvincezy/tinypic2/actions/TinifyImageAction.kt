@@ -2,7 +2,7 @@ package com.alvincezy.tinypic2.actions
 
 import com.alvincezy.tinypic2.*
 import com.alvincezy.tinypic2.exts.supportTinify
-import com.alvincezy.tinypic2.presenter.prepare
+import com.alvincezy.tinypic2.tinify.prepare
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.diagnostic.Logger
@@ -89,6 +89,7 @@ class TinifyImageAction : TinifyAction() {
                     logger.error(ex.message, ex)
                 }
             } while (!complete)
+            notify(flowable.verbose())
         }
     }
 }

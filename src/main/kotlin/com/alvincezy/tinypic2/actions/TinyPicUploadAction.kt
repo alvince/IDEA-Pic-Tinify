@@ -3,7 +3,7 @@ package com.alvincezy.tinypic2.actions
 import com.alvincezy.tinypic2.*
 import com.alvincezy.tinypic2.exts.supportTinify
 import com.alvincezy.tinypic2.model.VirtualFileAware
-import com.alvincezy.tinypic2.presenter.prepare
+import com.alvincezy.tinypic2.tinify.prepare
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileChooser.FileChooser
