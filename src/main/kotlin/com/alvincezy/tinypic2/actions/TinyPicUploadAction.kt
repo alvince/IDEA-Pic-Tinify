@@ -3,6 +3,7 @@ package com.alvincezy.tinypic2.actions
 import com.alvincezy.tinypic2.*
 import com.alvincezy.tinypic2.exts.supportTinify
 import com.alvincezy.tinypic2.model.VirtualFileAware
+import com.alvincezy.tinypic2.presenter.prepare
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileChooser.FileChooser
@@ -40,10 +41,7 @@ class TinyPicUploadAction : TinifyAction() {
 
     override fun performAction(actionEvent: AnActionEvent, project: Project) {
         val apiKey = preferences.apiKey
-        if (apiKey.isEmpty()) {
-            TinyPicOptionsConfigurable.showSettingsDialog(project)
-        } else {
-            Tinify.setKey(apiKey)
+        if (prepare(project, apiKey)) {
             pickAndTinify(project)
         }
     }
