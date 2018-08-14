@@ -60,7 +60,7 @@
         <action class="com.alvincezy.tinypic2.actions.TinyPicUploadAction"
                 id="$PicTinify.TinyPicUploadAction"
                 text="Select files and tinify"
-                icon="/icons/ic_pic_select.png">
+                icon="/icons/ic_tinify_select.png">
         </action>
 
         <group id="PicTinify.ActionToolbar" text="Picture Tinify Toolbar Actions">
