@@ -19,7 +19,7 @@ import java.io.IOException
  * Created by alvince on 2018/8/14.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0-SNAPSHOT, 2018/8/14
+ * @version 1.1.0-SNAPSHOT, 2018/8/15
  * @since 1.1.0
  */
 class TinifyImageAction : TinifyAction() {
@@ -42,10 +42,10 @@ class TinifyImageAction : TinifyAction() {
     }
 
     override fun validateAction(actionEvent: AnActionEvent?): Boolean {
-        val file = actionEvent?.getData(CommonDataKeys.VIRTUAL_FILE) as VirtualFile
+        val file: VirtualFile? = actionEvent?.getData(CommonDataKeys.VIRTUAL_FILE)
         val support = file.supportTinify()
         console("${javaClass.name} => validate[ $support ]")
-        actionEvent.presentation.isEnabledAndVisible = support
+        actionEvent?.presentation?.isEnabledAndVisible = support
         return support
     }
 
