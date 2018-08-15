@@ -28,7 +28,7 @@ class Verbose(val file: VirtualFile) {
 
     fun log(): String {
         val rate = compressedSize.toFloat().div(originalSize).times(100)
-        return "Tinify ${file.path} with ${rate.toInt()}% compressed, cost ${timeSeconds(timeCost)}"
+        return "Tinify '${file.path}' with ${rate.toInt()}% compressed, cost ${timeSeconds(timeCost)}"
     }
 }
 

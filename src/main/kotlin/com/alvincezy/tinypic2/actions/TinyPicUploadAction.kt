@@ -3,28 +3,25 @@ package com.alvincezy.tinypic2.actions
 import com.alvincezy.tinypic2.*
 import com.alvincezy.tinypic2.exts.supportTinify
 import com.alvincezy.tinypic2.model.VirtualFileAware
+import com.alvincezy.tinypic2.tinify.TinifyBackgroundTask
 import com.alvincezy.tinypic2.tinify.prepare
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
-import com.intellij.openapi.progress.ProgressIndicator
-import com.intellij.openapi.progress.ProgressManager
-import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
 import com.tinify.Tinify
-import java.io.IOException
 import java.util.*
 
 /**
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0-SNAPSHOT, 2018/8/14
+ * @version 1.1.0-SNAPSHOT, 2018/8/15
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
@@ -32,9 +29,6 @@ class TinyPicUploadAction : TinifyAction() {
     companion object {
         private const val TAG = "TinyPicUploadAction"
     }
-
-    @Volatile
-    private var taskPool = HashMap<String, Runnable>()
 
     private val logger = Logger.getInstance(javaClass)
     private val tinifySource = ArrayList<VirtualFileAware>()
@@ -56,31 +50,12 @@ class TinyPicUploadAction : TinifyAction() {
                 enable(true)
                 return@tinify
             }
-            ProgressManager.getInstance().run(object : Task.Backgroundable(project, Constants.APP_NAME, false) {
-                override fun run(indicator: ProgressIndicator) {
-                    indicator.text = "Perform Picture Tinify"
-                    selectedFiles.forEach { parseFilePicked(it) }
-                    console("tinify source ->\n\t$tinifySource")
-                    uploadAndTinify()
-                    console("task pool ->\n\t$taskPool")
-                    if (taskPool.isEmpty()) {
-                        return
-                    }
 
-                    do {
-                        try {
-                            Thread.sleep(50L)
-                        } catch (ex: Exception) {
-                            err(ex.stackTrace.toString())
-                            logger.error(ex.message, ex)
-                        }
-                    } while (!taskPool.isEmpty())
-
-                    indicator.text2 = "Complete Picture Tinify"
-                    notify("图片压缩完成")
-                    enable(true)
-                }
-            })
+            tinify {
+                selectedFiles.forEach { parseFilePicked(it) }
+                console("tinify source ->\n\t$tinifySource")
+                uploadAndTinify()
+            }
         }
     }
 
@@ -101,46 +76,37 @@ class TinyPicUploadAction : TinifyAction() {
     }
 
     private fun uploadAndTinify() {
-        taskPool.clear()
-
         if (!Tinify.validate()) {
             Messages.showInfoMessage("Tinify invalidate.", TAG)
             return
         }
 
-        tinifySource.map { it.file }
+        val actualList = tinifySource.map { it.file }
                 .filter { TinifyStack.pushFileTinify(it.path) }
-                .forEach { file ->
-                    console("io -> tinify[ $file ]")
-                    io(TaskRunnable(file))
-                }
-    }
-
-
-    inner class TaskRunnable(file: VirtualFile) : Runnable {
-        private val name = file.name
-        private val path = file.path
-        private val flowable: TinifyFlowable = TinifyFlowable(file)
-
-        init {
-            taskPool[name] = this
+        val size = actualList.size
+        if (size == 0) {
+            return
         }
 
-        override fun run() {
+        var complete = 0
+        val logBuffer = StringBuilder()
+        actualList.forEach { file ->
+            console("io -> tinify[ $file ]")
+            TinifyBackgroundTask(project, file, false) {
+                logBuffer.append("${it.verbose()}\n")
+                complete = complete.inc()
+            }.runTask()
+        }
+        do {
             try {
-                flowable.load()
-            } catch (ex: IOException) {
-                console(ex)
+                Thread.sleep(50L)
+            } catch (ex: Exception) {
                 err(ex.stackTrace.toString())
                 logger.error(ex.message, ex)
-                return
             }
+        } while (complete < size)
 
-            if (flowable.tinify()) {
-                taskPool.remove(name)
-                flowable.file().refresh(false, false)
-            }
-            TinifyStack.removeFileTinify(path)
-        }
+        enable(true)
+        notify(logBuffer.toString())
     }
 }
