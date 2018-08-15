@@ -7,17 +7,18 @@
     <description><![CDATA[
       <h1>Tinify Picture</h1>
       <br/>
-      <b>
-      <a href="https://github.com/alvince/TinyPic2">Home Page</a> |
-      <a href="https://github.com/alvince/TinyPic2">GitHub</a> |
-      <a href="https://github.com/alvince/TinyPic2/issues">Issues</a>
-      </b>
-      <!--<a href="https://plugins.jetbrains.com/idea/plugin/8579">Plugin Page</a> |-->
-      <br/>
-      <br/>
-
+      <p>
+        <b>
+          <a href="https://github.com/alvince/TinyPic2">Homepage</a>&nbsp;|&nbsp;
+          <a href="https://github.com/alvince/TinyPic2">GitHub</a>&nbsp;|&nbsp;
+          <a href="https://github.com/alvince/TinyPic2/issues">Issues</a>
+        </b>
+      </p>
+      <p>
       Compress images with TinyPng api.
       <br/>
+      Powerd by <a href="https://github.com/tinify/tinify-java">tinify-java</a>
+      </p>
       <br/>
       Website <a href="https://tinypng.com">https://tinypng.com</a>
       <br/>
@@ -27,10 +28,11 @@
 
     <change-notes><![CDATA[
       <ul>
-        <li>1.0.3 - Optimize processing tinify</li>
-        <li>1.0.2 - Shrink plugin size</li>
-        <li>1.0.1 - Fix compat android studio</li>
+        <li>Support file tinify from context menu</li>
+        <li>Add tinify size / time cost info output</li>
+        <li>Few optimize</li>
       </ul>
+      Visit for more details <a href="https://github.com/alvince/IDEA-Pic-Tinify/blob/master/UPDATES.md">Updates</a>
     ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
