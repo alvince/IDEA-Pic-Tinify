@@ -45,17 +45,16 @@ class TinyPicUploadAction : TinifyAction() {
         val descriptor = FileChooserDescriptor(true, true, false, false, false, true)
         val selectedFiles = FileChooser.chooseFiles(descriptor, project, project.baseDir)
         enable(false)
+
         tinify {
             if (selectedFiles.isEmpty()) {
                 enable(true)
                 return@tinify
             }
 
-            tinify {
-                selectedFiles.forEach { parseFilePicked(it) }
-                console("tinify source ->\n\t$tinifySource")
-                uploadAndTinify()
-            }
+            selectedFiles.forEach { parseFilePicked(it) }
+            console("tinify source ->\n\t$tinifySource")
+            uploadAndTinify()
         }
     }
 
@@ -92,8 +91,10 @@ class TinyPicUploadAction : TinifyAction() {
         val logBuffer = StringBuilder()
         actualList.forEach { file ->
             console("io -> tinify[ $file ]")
-            TinifyBackgroundTask(project, file, false) {
-                logBuffer.append("${it.verbose()}\n")
+            TinifyBackgroundTask(project, file, false) { tinify, succeed ->
+                if (succeed) {
+                    logBuffer.append("${tinify.verbose()}\n")
+                }
                 complete = complete.inc()
             }.runTask()
         }

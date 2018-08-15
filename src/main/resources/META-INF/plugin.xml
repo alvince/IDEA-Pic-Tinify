@@ -77,7 +77,7 @@
             <reference ref="$PicTinify.TinifyImageAction"/>
             <separator/>
 
-            <add-to-group group-id="Images.EditorPopupMenu"/>
+            <add-to-group group-id="Images.EditorPopupMenu" anchor="first"/>
         </group>
         <group id="PicTinify.ViewContext">
             <separator/>

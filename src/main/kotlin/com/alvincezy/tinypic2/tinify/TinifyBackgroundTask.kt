@@ -18,7 +18,7 @@ import java.io.IOException
  * @version 1.1.0, 2018/8/15
  */
 class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
-                           val notify: Boolean = true, cancelable: Boolean = false, val callback: (TinifyFlowable) -> Unit)
+                           val notify: Boolean = true, cancelable: Boolean = false, val callback: (TinifyFlowable, Boolean) -> Unit)
     : Task.Backgroundable(project, Constants.APP_NAME, cancelable) {
 
     var logger: Logger? = null
@@ -29,7 +29,7 @@ class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
     private var failured = false
 
     constructor(project: Project?, file: VirtualFile, notify: Boolean = true, cancelable: Boolean = false)
-            : this(project, file, notify, cancelable, {})
+            : this(project, file, notify, cancelable, { _, _ -> })
 
     override fun run(indicator: ProgressIndicator) {
         flowable = TinifyFlowable(file)
@@ -37,37 +37,26 @@ class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
 
         indicator.text = "Compress ${file.path}"
         console("Tinify source -> $path")
-        io {
-            try {
-                flowable.load()
-            } catch (ex: IOException) {
-                failured = true
-                console(ex)
-                err(ex.stackTrace.toString())
-                logger?.error(ex.message, ex)
-                return@io
-            }
 
-            if (flowable.tinify()) {
-                flowable.file().refresh(false, false)
-            }
-
-            complete = true
-            TinifyStack.removeFileTinify(path)
+        try {
+            flowable.load()
+        } catch (ex: IOException) {
+            console(ex)
+            failured = true
+            err(ex.stackTrace.toString())
+            logger?.error(ex.message, ex)
         }
-        do {
-            try {
-                Thread.sleep(50L)
-            } catch (ex: Exception) {
-                err(ex.stackTrace.toString())
-                logger?.error(ex.message, ex)
-            }
-        } while ((complete or failured).not())
+
+        if (flowable.tinify()) {
+            flowable.file().refresh(false, false)
+            complete = true
+        }
+        TinifyStack.removeFileTinify(path)
 
         if (notify) {
             notify(flowable.verbose())
         }
-        callback.invoke(flowable)
+        callback.invoke(flowable, complete)
     }
 
     fun runTask() {
