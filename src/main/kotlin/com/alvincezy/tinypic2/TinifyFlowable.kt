@@ -11,7 +11,7 @@ import java.io.IOException
  * Created by alvince on 17-7-14.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0-SNAPSHOT, 2018/8/15
+ * @version 1.1.0, 2018/8/15
  * @since 1.0.0
  */
 class TinifyFlowable(

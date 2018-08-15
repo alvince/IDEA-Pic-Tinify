@@ -9,7 +9,7 @@ import com.intellij.openapi.project.Project
  * Created by alvince on 17-7-11.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0-SNAPSHOT, 2018/8/14
+ * @version 1.1.0, 2018/8/14
  * @since 1.0
  */
 abstract class TinifyAction internal constructor() : AnAction(), AnAction.TransparentUpdate {

@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/alvince/IDEA-Pic-Tinify">
     <id>com.alvincezy.TinyPic2</id>
     <name>Tinify Picture</name>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0</version>
     <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince">alvince</vendor>
 
     <description><![CDATA[
@@ -19,7 +19,7 @@
       Compress images with TinyPng api.
       <br/>
       <br/>
-      👁️‍️ Website <a href="https://tinypng.com">https://tinypng.com</a>
+      Website <a href="https://tinypng.com">https://tinypng.com</a>
       <br/>
       <br/>
       <i>Compiled with Java 1.8 and Kotlin 1.2</i>

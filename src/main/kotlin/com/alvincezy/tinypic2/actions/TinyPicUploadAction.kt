@@ -21,7 +21,7 @@ import java.util.*
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0-SNAPSHOT, 2018/8/15
+ * @version 1.1.0, 2018/8/15
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {

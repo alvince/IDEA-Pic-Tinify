@@ -17,7 +17,7 @@ import com.intellij.openapi.vfs.VirtualFile
  * Created by alvince on 2018/8/14.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0-SNAPSHOT, 2018/8/15
+ * @version 1.1.0, 2018/8/15
  * @since 1.1.0
  */
 class TinifyImageAction : TinifyAction() {
