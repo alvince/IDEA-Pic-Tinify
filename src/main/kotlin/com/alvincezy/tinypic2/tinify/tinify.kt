@@ -1,4 +1,4 @@
-package com.alvincezy.tinypic2.presenter
+package com.alvincezy.tinypic2.tinify
 
 import com.alvincezy.tinypic2.TinyPicOptionsConfigurable
 import com.intellij.openapi.project.Project
