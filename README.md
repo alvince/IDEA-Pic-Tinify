@@ -24,7 +24,7 @@ IDEA-Pic-Tinify
 
 - 本地安装，点击这里️ 👉 [下载](https://github.com/alvince/IDEA-Pic-Tinify/releases/latest "v1.1.0")
 
-- 在线安装 [Plugin repository](https://plugins.jetbrains.com/plugin/11025-tinify-picture)
+- 在线安装 [Plugin repository](https://plugins.jetbrains.com/plugin/11025-tinify-picture)  
   IDE 插件设置搜索 `tinify` 可以看到查询结果 => `Tinify Picture`  
   ![search](art/tinify_repo.png)
 
@@ -36,11 +36,11 @@ IDEA-Pic-Tinify
 2. 输入在 [developers](https://tinypng.com/developers) 申请的 api key  
 ![settings.png](art/settings.png "Settings")
 
-3. 选择图片（可多选，接受 `png` `jpg` 文件类型），自动上传压缩保存（覆盖）  
+3. 选择图片（可多选，接受 `png` `jpg` 文件类型），自动上传压缩保存（覆盖）  
 ![select_images.png](art/select_images.png "Pick Images")
 
 4. 快速操作  
-  可在图片编辑器右键菜单、项目文件 及 版本控制面板的 `Local Changes` 视图中  
+  可在图片编辑器右键菜单、项目文件 及 版本控制面板的 `Local Changes` 视图中  
   文件右键菜单选择 "Tinify image file" 直接压缩图片  
   ![action_edit_menu](art/tinify_editor.png)
   ![action_project_view](art/tinify_project.png)
