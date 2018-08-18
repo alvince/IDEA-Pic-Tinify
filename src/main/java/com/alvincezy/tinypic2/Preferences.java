@@ -12,13 +12,14 @@ import org.jetbrains.annotations.Nullable;
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.1, 7/20/2017
+ * @version 1.1.1, 2018/8/18
  * @since 1.0
  */
 @State(name = "TinyPicPreferences", storages = @Storage(value = "$APP_CONFIG$/TinyPic2.xml"))
 public class Preferences implements PersistentStateComponent<Preferences> {
 
     private String apiKey;
+    private boolean backupBeforeTinify;
 
     public static Preferences getInstance() {
         return ServiceManager.getService(Preferences.class);
@@ -41,5 +42,13 @@ public class Preferences implements PersistentStateComponent<Preferences> {
 
     public void setApiKey(String key) {
         apiKey = key;
+    }
+
+    public boolean isBackupBeforeTinify() {
+        return backupBeforeTinify;
+    }
+
+    public void setBackupBeforeTinify(boolean backupBeforeTinify) {
+        this.backupBeforeTinify = backupBeforeTinify;
     }
 }

@@ -15,7 +15,7 @@ import java.io.IOException
  * Created by alvince on 18-8-15.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0, 2018/8/15
+ * @version 1.1.1, 2018/8/18
  */
 class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
                            val notify: Boolean = true, cancelable: Boolean = false, val callback: (TinifyFlowable, Boolean) -> Unit)
@@ -37,6 +37,8 @@ class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
 
         indicator.text = "Compress ${file.path}"
         console("Tinify source -> $path")
+
+        preHandleTinifySource(file)
 
         try {
             flowable.load()
@@ -61,5 +63,11 @@ class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
 
     fun runTask() {
         ProgressManager.getInstance().run(this)
+    }
+
+    private fun preHandleTinifySource(source: VirtualFile) {
+        if (Preferences.getInstance().isBackupBeforeTinify) {
+            backupTinifySource(source)
+        }
     }
 }
