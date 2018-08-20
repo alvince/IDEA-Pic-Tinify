@@ -1,15 +1,15 @@
 package com.alvincezy.tinypic2.ui;
 
+import com.alvincezy.tinypic2.Constants;
+import com.alvincezy.tinypic2.Preferences;
+import com.alvincezy.tinypic2.util.ComponentUtil;
+import com.alvincezy.tinypic2.util.StringUtil;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.labels.ActionLink;
 import com.intellij.ui.components.labels.LinkLabel;
-import com.alvincezy.tinypic2.Constants;
-import com.alvincezy.tinypic2.Preferences;
-import com.alvincezy.tinypic2.util.ComponentUtil;
-import com.alvincezy.tinypic2.util.StringUtil;
 
 import javax.swing.*;
 
@@ -17,7 +17,7 @@ import javax.swing.*;
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0, 7/18/2017
+ * @version 1.1.1, 2018/8/20
  * @since 1.0
  */
 public class PreferencesPanel {
@@ -26,6 +26,8 @@ public class PreferencesPanel {
     private JPanel mApiKeySettingsPanel;
     private JTextField mApiKeyField;
     private LinkLabel mGetApiKeyLink;
+    private JPanel mOptionsPanel;
+    private JCheckBox mOptionBackupCheck;
 
     private Preferences mPrefs;
 
@@ -37,15 +39,22 @@ public class PreferencesPanel {
 
     public boolean isModified() {
         String apiKeyInput = ComponentUtil.getInputText(mApiKeyField);
-        return !StringUtil.equals(apiKeyInput, mPrefs.getApiKey());
+        if (!StringUtil.equals(apiKeyInput, mPrefs.getApiKey())) {
+            return true;
+        }
+
+        boolean optionBackup = mOptionBackupCheck.isSelected();
+        return mPrefs.isBackupBeforeTinify() != optionBackup;
     }
 
     public void apply() {
         mPrefs.setApiKey(ComponentUtil.getInputText(mApiKeyField));
+        mPrefs.setBackupBeforeTinify(mOptionBackupCheck.isSelected());
     }
 
     public void reset() {
         mApiKeyField.setText(mPrefs.getApiKey());
+        mOptionBackupCheck.setSelected(mPrefs.isBackupBeforeTinify());
     }
 
     private void createUIComponents() {
@@ -59,5 +68,6 @@ public class PreferencesPanel {
 
     private void setApiKeyPanel() {
         mApiKeySettingsPanel.setBorder(IdeBorderFactory.createTitledBorder("TinyPng"));
+        mOptionsPanel.setBorder(IdeBorderFactory.createTitledBorder("Options"));
     }
 }
