@@ -21,7 +21,7 @@ import java.util.*
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0, 2018/8/15
+ * @version 1.1.1, 2018/8/21
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
@@ -96,7 +96,7 @@ class TinyPicUploadAction : TinifyAction() {
                     logBuffer.append("${tinify.verbose()}\n")
                 }
                 complete = complete.inc()
-            }.runTask()
+            }.runTask(preferences.isBackupBeforeTinify)
         }
         do {
             try {

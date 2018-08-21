@@ -15,7 +15,7 @@ import java.io.IOException
  * Created by alvince on 18-8-15.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.1, 2018/8/19
+ * @version 1.1.1, 2018/8/21
  */
 class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
                            val notify: Boolean = true, cancelable: Boolean = false, val callback: (TinifyFlowable, Boolean) -> Unit)
@@ -40,7 +40,7 @@ class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
         console("Tinify source -> $path")
 
         if (backupOnTinify) {
-            backupTinifySource(file)
+            backupTinifySource(file, true)
         }
 
         try {
