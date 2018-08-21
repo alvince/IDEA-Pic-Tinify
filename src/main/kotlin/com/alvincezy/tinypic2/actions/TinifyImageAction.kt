@@ -17,7 +17,7 @@ import com.intellij.openapi.vfs.VirtualFile
  * Created by alvince on 2018/8/14.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0, 2018/8/15
+ * @version 1.1.1, 2018/8/21
  * @since 1.1.0
  */
 class TinifyImageAction : TinifyAction() {
@@ -38,7 +38,7 @@ class TinifyImageAction : TinifyAction() {
 
         val task = TinifyBackgroundTask(project, file)
         task.logger = logger
-        task.runTask()
+        task.runTask(preferences.isBackupBeforeTinify)
     }
 
     override fun validateAction(actionEvent: AnActionEvent?): Boolean {
