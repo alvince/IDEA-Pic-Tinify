@@ -35,3 +35,17 @@ fun backupTinifySource(file: VirtualFile, refresh: Boolean = false) {
                 ?.refresh(true, false)
     }
 }
+
+fun getTopSelection(selections: Array<VirtualFile>): VirtualFile? {
+    if (selections.isEmpty()) return null
+
+    var root = selections[0]
+    selections.forEach {
+        val filePath = if (it.isDirectory) it.path else it.parent.path
+
+        if (root.path.contains(filePath)) {
+            root = it
+        }
+    }
+    return root
+}
