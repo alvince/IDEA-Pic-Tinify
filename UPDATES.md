@@ -1,6 +1,11 @@
 Changes Log
 ===
 
+### 1.1.1
+
+- Support backup original images
+- Cache last select files root (for current session)
+
 ### 1.1.0
 
 - Support file tinify from context menu

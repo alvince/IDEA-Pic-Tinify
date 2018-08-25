@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/alvince/IDEA-Pic-Tinify">
     <id>com.alvincezy.TinyPic2</id>
     <name>Tinify Picture</name>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince">alvince</vendor>
 
     <description><![CDATA[
@@ -28,9 +28,8 @@
 
     <change-notes><![CDATA[
       <ul>
-        <li>Support file tinify from context menu</li>
-        <li>Add tinify size / time cost info output</li>
-        <li>Few optimize</li>
+        <li>Support backup original images</li>
+        <li>Cache last select files root (for current session)</li>
       </ul>
       Visit for more details <a href="https://github.com/alvince/IDEA-Pic-Tinify/blob/master/UPDATES.md">Updates</a>
     ]]></change-notes>
