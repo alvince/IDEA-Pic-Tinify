@@ -3,7 +3,9 @@ package com.alvincezy.tinypic2.actions
 import com.alvincezy.tinypic2.*
 import com.alvincezy.tinypic2.exts.supportTinify
 import com.alvincezy.tinypic2.model.VirtualFileAware
+import com.alvincezy.tinypic2.tinify.PluginStat
 import com.alvincezy.tinypic2.tinify.TinifyBackgroundTask
+import com.alvincezy.tinypic2.tinify.getTopSelection
 import com.alvincezy.tinypic2.tinify.prepare
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
@@ -16,6 +18,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.VirtualFileVisitor
 import com.tinify.Tinify
 
@@ -23,7 +26,7 @@ import com.tinify.Tinify
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.1, 2018/8/21
+ * @version 1.1.1, 2018/8/24
  * @since 1.0
  */
 class TinyPicUploadAction : TinifyAction() {
@@ -47,11 +50,19 @@ class TinyPicUploadAction : TinifyAction() {
 
     private fun pickAndTinify(project: Project) {
         val descriptor = FileChooserDescriptor(true, true, false, false, false, true)
-        val selectedFiles = FileChooser.chooseFiles(descriptor, project, project.baseDir)
+        val urlSelectTo = PluginStat.urlSelectToTinify(project)
+        console("base directory: $urlSelectTo")
+        val selectedFiles = FileChooser.chooseFiles(descriptor, project,
+                VirtualFileManager.getInstance().findFileByUrl(urlSelectTo))
         if (selectedFiles.isEmpty()) {
             return@pickAndTinify
         }
 
+        val rootSelection = getTopSelection(selectedFiles)
+        if (rootSelection != null) {
+            console("select root dir: $rootSelection")
+            PluginStat.pickFileDefault = rootSelection.path
+        }
         enable(false)
         ProgressManager.getInstance().run(object : Task.Backgroundable(project, Constants.APP_NAME, true) {
             override fun run(indicator: ProgressIndicator) {
