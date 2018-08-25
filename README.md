@@ -1,9 +1,11 @@
 IDEA-Pic-Tinify
 ===
 
-🔗 [SNAPSHOT](README-SNAPSHOT.md)  
+![](https://img.shields.io/badge/Tinify%20Picture-1.1.1-blue.svg)
 
 ### 快速压缩图片的 Intellij 插件
+
+🔗 [SNAPSHOT](README-SNAPSHOT.md)  
 
 压缩功能由 TinyPng 网站提供 https://tinypng.com/ —— powerd by [tinify-java](https://github.com/tinify/tinify-java)
 
@@ -22,7 +24,7 @@ IDEA-Pic-Tinify
 
 ### Install
 
-- 本地安装，点击这里️ 👉 [下载](https://github.com/alvince/IDEA-Pic-Tinify/releases/latest "v1.1.0")
+- 本地安装，点击这里️ 👉 [下载](https://github.com/alvince/IDEA-Pic-Tinify/releases/latest "latest")
 
 - 在线安装 [Plugin repository](https://plugins.jetbrains.com/plugin/11025-tinify-picture)  
   IDE 插件设置搜索 `tinify` 可以看到查询结果 => `Tinify Picture`  
