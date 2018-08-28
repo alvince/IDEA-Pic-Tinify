@@ -1,6 +1,6 @@
 package com.alvincezy.tinypic2
 
-import com.alvincezy.tinypic2.ui.PreferencesPanel
+import com.alvincezy.tinypic2.ui.SettingsPanel
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurationException
@@ -17,7 +17,7 @@ import javax.swing.JComponent
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.3, 2018/8/12
+ * @version 1.1.2-SNAPSHOT, 2018/8/28
  * @since 1.0
  */
 class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll, Disposable {
@@ -31,7 +31,8 @@ class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll
     }
 
     private val preferences: Preferences = Preferences.getInstance()
-    private var settingsPanel: PreferencesPanel? = null
+//    private var settingsPanel: PreferencesPanel? = null
+    private var settingsPanel: SettingsPanel = SettingsPanel()
 
     override fun getId(): String {
         return this.helpTopic
@@ -51,12 +52,14 @@ class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll
     }
 
     override fun createComponent(): JComponent? {
-        settingsPanel = PreferencesPanel()
-        return settingsPanel!!.create(preferences)
+        return settingsPanel.create()
+
+//        settingsPanel = PreferencesPanel()
+//        return settingsPanel!!.create(preferences)
     }
 
     override fun isModified(): Boolean {
-        return settingsPanel!!.isModified
+        return settingsPanel!!.modified
     }
 
     @Throws(ConfigurationException::class)
@@ -73,6 +76,6 @@ class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll
     }
 
     override fun dispose() {
-        settingsPanel = null
+//        settingsPanel = null
     }
 }
