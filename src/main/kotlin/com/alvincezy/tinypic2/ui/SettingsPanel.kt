@@ -14,7 +14,7 @@ import javax.swing.*
  * Created by alvince on 18-8-28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.2-SNAPSHOT, 2018/8/31
+ * @version 1.1.2 2018/8/31
  * @since 1.1.2-SNAPSHOT
  */
 class SettingsPanel(private val prefs: Preferences) {

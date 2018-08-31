@@ -7,7 +7,7 @@ import kotlin.collections.HashMap
  * Created by alvince on 2018/8/10.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.3-SNAPSHOT, 2018/8/12
+ * @version 1.0.3 2018/8/12
  * @since 1.0.3
  */
 object TinifyStack {

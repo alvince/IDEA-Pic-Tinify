@@ -1,6 +1,11 @@
 Changes Log
 ===
 
+### 1.1.2
+
+- Replace most code with kotlin
+- Few optimize
+
 ### 1.1.1
 
 - Support backup original images

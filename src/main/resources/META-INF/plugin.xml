@@ -1,26 +1,26 @@
 <idea-plugin url="https://github.com/alvince/IDEA-Pic-Tinify">
     <id>com.alvincezy.TinyPic2</id>
     <name>Tinify Picture</name>
-    <version>1.1.1</version>
-    <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince">alvince</vendor>
+    <version>1.1.2</version>
+    <vendor email="alvince.zy@gmail.com" url="https://github.com/alvince/">alvince</vendor>
 
     <description><![CDATA[
       <h1>Tinify Picture</h1>
       <br/>
       <p>
         <b>
-          <a href="https://github.com/alvince/TinyPic2">Homepage</a>&nbsp;|&nbsp;
-          <a href="https://github.com/alvince/TinyPic2">GitHub</a>&nbsp;|&nbsp;
+          <a href="https://github.com/alvince/TinyPic2">GitHub</a>
+          &nbsp;|&nbsp;
           <a href="https://github.com/alvince/TinyPic2/issues">Issues</a>
         </b>
       </p>
       <p>
-      Compress images with TinyPng api.
+      Compress images with TinyPng API.
       <br/>
       Powerd by <a href="https://github.com/tinify/tinify-java">tinify-java</a>
       </p>
       <br/>
-      Website <a href="https://tinypng.com">https://tinypng.com</a>
+      Tinypng <a href="https://tinypng.com">https://tinypng.com</a>
       <br/>
       <br/>
       <i>Compiled with Java 1.8 and Kotlin 1.2</i>
@@ -28,10 +28,10 @@
 
     <change-notes><![CDATA[
       <ul>
-        <li>Support backup original images</li>
-        <li>Cache last select files root (for current session)</li>
+        <li>Replace most code with kotlin</li>
+        <li>Few optimize</li>
       </ul>
-      Visit for more details <a href="https://github.com/alvince/IDEA-Pic-Tinify/blob/master/UPDATES.md">Updates</a>
+      <a href="https://github.com/alvince/IDEA-Pic-Tinify/blob/master/UPDATES.md">Full Changelog History</a>
     ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->

@@ -17,7 +17,7 @@ import javax.swing.JComponent
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.2-SNAPSHOT, 2018/8/30
+ * @version 1.1.2 2018/8/30
  * @since 1.0
  */
 class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll, Disposable {

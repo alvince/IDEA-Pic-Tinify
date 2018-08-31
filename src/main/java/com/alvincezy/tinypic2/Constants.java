@@ -6,7 +6,7 @@ package com.alvincezy.tinypic2;
  * Created by alvince on 17-6-28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.2-SNAPSHOT, 2018/8/31
+ * @version 1.1.2 2018/8/31
  * @since 1.0
  */
 public interface Constants {

@@ -10,7 +10,7 @@ import java.lang.Exception
  * Created by alvince on 18-8-12.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.2-SNAPSHOT, 2018/8/31
+ * @version 1.1.2 2018/8/31
  */
 
 fun notify(content: String) {
