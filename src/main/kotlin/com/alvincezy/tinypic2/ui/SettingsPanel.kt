@@ -2,7 +2,6 @@ package com.alvincezy.tinypic2.ui
 
 import com.alvincezy.tinypic2.Constants
 import com.alvincezy.tinypic2.Preferences
-import com.alvincezy.tinypic2.util.ComponentUtil
 import com.intellij.ide.BrowserUtil
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.layout.panel
@@ -39,7 +38,7 @@ class SettingsPanel(private val prefs: Preferences) {
     }
 
     fun apply() {
-        prefs.apiKey = ComponentUtil.getInputText(apiKeyField)
+        prefs.apiKey = apiKeyField.text()
         prefs.isBackupBeforeTinify = backupCheck.isSelected
         resetStatus()
     }
@@ -57,7 +56,7 @@ class SettingsPanel(private val prefs: Preferences) {
                 apiKeyField(grow)
             }
             apiKeyField.addActionListener {
-                val text = ComponentUtil.getInputText(it.source as JTextField)
+                val text = (it.source as JTextField).text()
                 apiKeyUpdated = text != prefs.apiKey
             }
             val label = "没有 API key？ 点击获取"
