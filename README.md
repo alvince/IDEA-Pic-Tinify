@@ -1,7 +1,14 @@
 IDEA-Pic-Tinify
 ===
 
-![](https://img.shields.io/badge/Tinify%20Picture-1.1.1-blue.svg)
+<p>
+<a href="https://plugins.jetbrains.com/plugin/11025-tinify-picture">
+  <img src="https://img.shields.io/badge/Tinify%20Picture-1.1.2-blue.svg" alt="" />
+</a>
+<a href="https://www.apache.org/licenses/LICENSE-2.0">
+    <img src="https://img.shields.io/badge/licence-Apache--2.0-green.svg" alt="License" />
+</a>
+</p>
 
 ### 快速压缩图片的 Intellij 插件
 
