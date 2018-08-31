@@ -48,3 +48,8 @@ apply plugin: 'idea'
 
 group 'com.alvincezy'
 version "${plugin_version}"
+
+publishPlugin {
+    username "$intellijPublishUsername"
+    password "$intellijPublishPassword"
+}
