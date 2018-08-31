@@ -1,5 +1,6 @@
 package com.alvincezy.tinypic2
 
+import com.alvincezy.tinypic2.tinify.DEBUG_MODE
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
@@ -9,6 +10,7 @@ import java.lang.Exception
  * Created by alvince on 18-8-12.
  *
  * @author alvince.zy@gmail.com
+ * @version 1.1.2-SNAPSHOT, 2018/8/31
  */
 
 fun notify(content: String) {
@@ -29,11 +31,12 @@ fun err(error: String) {
 }
 
 fun console(content: Any?) {
+    if (!DEBUG_MODE) return
+
     content ?: return
-    if (Constants.DEBUG) {
-        when (content) {
-            is Exception -> println(content.stackTrace.toString())
-            else -> println(content)
-        }
+
+    when (content) {
+        is Exception -> println(content.stackTrace.toString())
+        else -> println(content)
     }
 }

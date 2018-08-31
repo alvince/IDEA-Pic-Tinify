@@ -1,14 +1,15 @@
 package com.alvincezy.tinypic2;
 
 /**
+ * Tinify plugin constants
+ * <p>
  * Created by alvince on 17-6-28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.0.3-SNAPSHOT, 2018/8/12
+ * @version 1.1.2-SNAPSHOT, 2018/8/31
  * @since 1.0
  */
 public interface Constants {
-    boolean DEBUG = true;
 
     String APP_NAME = "Tinify Picture";    // Plugin name
 

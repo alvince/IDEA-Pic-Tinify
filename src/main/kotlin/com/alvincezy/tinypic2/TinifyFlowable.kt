@@ -11,14 +11,14 @@ import java.io.IOException
  * Created by alvince on 17-7-14.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.0, 2018/8/15
+ * @version 1.1.2, 2018/8/31
  * @since 1.0.0
  */
-class TinifyFlowable(
-        private val file: VirtualFile
-) {
+class TinifyFlowable(private val file: VirtualFile) {
+
     var source: Source? = null
         private set
+
     var result: Result? = null
         private set
 
@@ -45,9 +45,7 @@ class TinifyFlowable(
         return true
     }
 
-    fun file(): VirtualFile {
-        return file
-    }
+    fun file(): VirtualFile = file
 
     fun verbose(): String = verbose.log()
 }

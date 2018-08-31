@@ -15,13 +15,15 @@ import java.io.IOException
  * Created by alvince on 18-8-15.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.1, 2018/8/21
+ * @version 1.1.2, 2018/8/31
  */
 class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
-                           val notify: Boolean = true, cancelable: Boolean = false, val callback: (TinifyFlowable, Boolean) -> Unit)
+                           val notify: Boolean = true, cancelable: Boolean = false,
+                           val callback: (TinifyFlowable, Boolean) -> Unit)
     : Task.Backgroundable(project, Constants.APP_NAME, cancelable) {
 
     var logger: Logger? = null
+
     lateinit var flowable: TinifyFlowable
         private set
 
@@ -33,14 +35,16 @@ class TinifyBackgroundTask(project: Project?, val file: VirtualFile,
             : this(project, file, notify, cancelable, { _, _ -> })
 
     override fun run(indicator: ProgressIndicator) {
+        val path = file.path
         flowable = TinifyFlowable(file)
-        val path = flowable.file().path
 
-        indicator.text = "Compress ${file.path}"
         console("Tinify source -> $path")
+        indicator.text = "Compress $path"
 
         if (backupOnTinify) {
+            indicator.text2 = "Backup file ${file.name}"
             backupTinifySource(file, true)
+            indicator.text2 = ""
         }
 
         try {

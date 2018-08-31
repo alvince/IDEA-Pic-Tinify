@@ -8,6 +8,13 @@ import com.intellij.openapi.vfs.VirtualFileManager
 import com.tinify.Tinify
 import java.io.File
 
+/**
+ * Indicate current in debug mode.
+ *
+ * Should disable this while build plugin release
+ */
+const val DEBUG_MODE = true
+
 fun prepare(project: Project?, apiKey: String): Boolean {
     if (apiKey.isEmpty()) {
         TinyPicOptionsConfigurable.showSettingsDialog(project)
@@ -30,6 +37,8 @@ fun backupTinifySource(file: VirtualFile, refresh: Boolean = false) {
         }
 
         File(file.path).copyTo(target, true)
+
+        if (!refresh) return
         VirtualFileManager.getInstance()
                 .findFileByUrl(target.toURL().toString())
                 ?.refresh(true, false)
