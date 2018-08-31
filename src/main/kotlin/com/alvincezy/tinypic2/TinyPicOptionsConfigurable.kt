@@ -17,22 +17,22 @@ import javax.swing.JComponent
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.2-SNAPSHOT, 2018/8/28
+ * @version 1.1.2-SNAPSHOT, 2018/8/30
  * @since 1.0
  */
 class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll, Disposable {
 
     companion object {
+        val CLAZZ = TinyPicOptionsConfigurable::class.java
+
         fun showSettingsDialog(project: Project?) {
             if (project != null) {
-                ShowSettingsUtil.getInstance().showSettingsDialog(project, TinyPicOptionsConfigurable::class.java)
+                ShowSettingsUtil.getInstance().showSettingsDialog(project, CLAZZ)
             }
         }
     }
 
-    private val preferences: Preferences = Preferences.getInstance()
-//    private var settingsPanel: PreferencesPanel? = null
-    private var settingsPanel: SettingsPanel = SettingsPanel()
+    private val settingsPanel: SettingsPanel = SettingsPanel(Preferences.getInstance())
 
     override fun getId(): String {
         return this.helpTopic
@@ -53,22 +53,19 @@ class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll
 
     override fun createComponent(): JComponent? {
         return settingsPanel.create()
-
-//        settingsPanel = PreferencesPanel()
-//        return settingsPanel!!.create(preferences)
     }
 
     override fun isModified(): Boolean {
-        return settingsPanel!!.modified
+        return settingsPanel.modified
     }
 
     @Throws(ConfigurationException::class)
     override fun apply() {
-        settingsPanel!!.apply()
+        settingsPanel.apply()
     }
 
     override fun reset() {
-        settingsPanel!!.reset()
+        settingsPanel.reset()
     }
 
     override fun disposeUIResources() {
@@ -76,6 +73,5 @@ class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll
     }
 
     override fun dispose() {
-//        settingsPanel = null
     }
 }
