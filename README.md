@@ -58,6 +58,8 @@ IDEA-Pic-Tinify
   ![action_edit_menu](art/tinify_editor.png)
   ![action_project_view](art/tinify_project.png)
 
+### Contribute
+See [Contribute Guide](CONTRIBUTE.md)
 
 To-do
 ---
