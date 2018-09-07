@@ -1,6 +1,6 @@
 package com.alvincezy.tinypic2
 
-import com.alvincezy.tinypic2.ui.SettingsPanel
+import com.alvincezy.tinypic2.ui.PreferencesPanel
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurationException
@@ -17,13 +17,13 @@ import javax.swing.JComponent
  * Created by alvince on 2017/6/28.
  *
  * @author alvince.zy@gmail.com
- * @version 1.1.2 2018/8/30
+ * @version 1.1.3, 2018/9/7
  * @since 1.0
  */
 class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll, Disposable {
 
     companion object {
-        val CLAZZ = TinyPicOptionsConfigurable::class.java
+        private val CLAZZ = TinyPicOptionsConfigurable::class.java
 
         fun showSettingsDialog(project: Project?) {
             if (project != null) {
@@ -32,40 +32,33 @@ class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll
         }
     }
 
-    private val settingsPanel: SettingsPanel = SettingsPanel(Preferences.getInstance())
+    private var settingsPanel: PreferencesPanel? = null
 
-    override fun getId(): String {
-        return this.helpTopic
-    }
+    override fun getId(): String = this.helpTopic
 
     @Nls
-    override fun getDisplayName(): String {
-        return "Picture Tinify"
-    }
+    override fun getDisplayName(): String ="Picture Tinify"
 
-    override fun getHelpTopic(): String {
-        return "com.alvincezy.reference.settings.plugin.tinypic2"
-    }
+    override fun getHelpTopic(): String = "com.alvincezy.reference.settings.plugin.tinypic2"
 
-    override fun enableSearch(option: String?): Runnable? {
-        return Runnable { print("enableSearch") }
-    }
+    override fun enableSearch(option: String?): Runnable? = Runnable { print("enableSearch") }
 
     override fun createComponent(): JComponent? {
-        return settingsPanel.create()
+        if (settingsPanel == null) {
+            settingsPanel = PreferencesPanel()
+        }
+        return settingsPanel?.create(Preferences.getInstance())
     }
 
-    override fun isModified(): Boolean {
-        return settingsPanel.modified
-    }
+    override fun isModified(): Boolean = settingsPanel?.isModified ?: false
 
     @Throws(ConfigurationException::class)
     override fun apply() {
-        settingsPanel.apply()
+        settingsPanel?.apply()
     }
 
     override fun reset() {
-        settingsPanel.reset()
+        settingsPanel?.reset()
     }
 
     override fun disposeUIResources() {
@@ -73,5 +66,6 @@ class TinyPicOptionsConfigurable : SearchableConfigurable, Configurable.NoScroll
     }
 
     override fun dispose() {
+        settingsPanel = null
     }
 }
