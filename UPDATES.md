@@ -1,6 +1,10 @@
 Changes Log
 ===
 
+### 1.1.3
+
+- Fix compatibility on Android Studio
+
 ### 1.1.2
 
 - Replace most code with kotlin
