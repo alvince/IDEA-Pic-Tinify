@@ -3,10 +3,14 @@ IDEA-Pic-Tinify
 
 <p>
 <a href="https://plugins.jetbrains.com/plugin/11025-tinify-picture">
-  <img src="https://img.shields.io/badge/Tinify%20Picture-1.1.2-blue.svg" alt="" />
+  <img src="https://img.shields.io/badge/Tinify%20Picture-1.1.3-blue.svg" alt="Plugin" />
 </a>
 <a href="https://www.apache.org/licenses/LICENSE-2.0">
-    <img src="https://img.shields.io/badge/licence-Apache--2.0-green.svg" alt="License" />
+  <img src="https://img.shields.io/badge/licence-Apache--2.0-green.svg" alt="License" />
+</a>
+<a href="https://codeclimate.com/github/alvince/IDEA-Pic-Tinify/maintainability">
+  <img alt="Code Quality"
+      src="https://api.codeclimate.com/v1/badges/7d13982e94e36e4c749c/maintainability" />
 </a>
 </p>
 
@@ -55,7 +59,8 @@ IDEA-Pic-Tinify
   ![action_project_view](art/tinify_project.png)
 
 
-## TODO
+To-do
+---
 
 - [x] 增加压缩耗时/大小信息统计
 - [x] 备份原图
